@@ -1,3 +1,0 @@
-mongodb+srv://sumitpatil9370:ghosthock@cluster0.f6d07ui.mongodb.net/     
-
-GITHUB SECRET : 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
