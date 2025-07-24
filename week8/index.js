@@ -7,6 +7,8 @@ app.use(express.json());
 
 const {coureRouter}=require("./routs/courses");
 const {userRouter}= require ("./routs/users");
+const {teacherRouter}=require("./routs/teacher");
+app.use("/teacher",teacherRouter);
 app.use("/user", userRouter);
 app.use("/course", coureRouter);
 function main(){
