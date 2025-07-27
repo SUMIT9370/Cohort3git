@@ -3,7 +3,10 @@ const teacherRouter=teacher();
 const z=require("zod");
 const jwt=require("jsonwebtoken");
 const bcrypt= require("bcrypt");
-const jwtsecret="sumit at google"
+require("dotenv").config();
+const jwtsecret=process.env.Teacher_JWT_SECRET;
+const {coureRouter}= require ("../routs/courses");
+teacherRouter.use("/course",coureRouter);
 
 
 const {teacherdb}=require ("../db");
@@ -80,7 +83,7 @@ teacherRouter.post("/signin",async function(req, res){
         if (passverify){
             try{
                 const token=jwt.sign({
-                    user:user.email
+                    user:user._id
                 },jwtsecret);
                 res.status(200).json({
                     message: "Your now logged in as teacher", verifytoken: token

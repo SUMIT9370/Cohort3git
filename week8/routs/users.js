@@ -3,7 +3,8 @@ const userRouter=router();
 const z= require("zod");
 const bcrypt=require("bcrypt");
 const jwt =require("jsonwebtoken");
-const  jwtsecret="this is user secret";
+require("dotenv").config();
+const jwtsecret=process.env.USER_JWT_SECRET;
 
 
 
@@ -75,7 +76,7 @@ userRouter.post("/signin",async function(req, res){
         if (passverify){
             try{
                 const token=jwt.sign({
-                    user:user.email
+                    user:user._id
                 },jwtsecret);
                 res.status(200).json({
                     message: "Your now logged in as student", verifytoken: token

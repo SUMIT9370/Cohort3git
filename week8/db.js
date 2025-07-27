@@ -6,7 +6,7 @@ require("dotenv").config();
 mongo.connect(process.env.MONGO_URL)
 
 
-const ObjectId=mongo.ObjectId;
+const ObjectId=Schema.ObjectId;
 const user= new Schema({
     email:{type: String, unique: true},name: String,pass:String
 })
@@ -16,9 +16,8 @@ const teacher= new Schema({
 })
 
 const coures=new Schema({
-    titel:String,price:Number,image:String ,discription:String,teacher:ObjectId
+    title:{type:String,unique:true},price:String,image:String ,discription:String,teacher:ObjectId
 })
-
 const purches= new Schema({
     course:ObjectId,user:ObjectId
 })

@@ -1,7 +1,13 @@
 const router= require("express");
 const coursesrouter=router();
+const auth=require("../middleware/teacher")
+const {couresdb}=require("../db");
+const mongo=require("mongoose");
+const e = require("express");
+require("dotenv").config();
 
-coursesrouter.get("/allcourse",async function (req, res){
+mongo.connect(process.env.MONGO_URL);
+coursesrouter.get("/allcourse", async function (req, res){
     res.json({
         message:"you are at all coureses"
     })
@@ -12,8 +18,32 @@ coursesrouter.get("/freecources",async function (req, res){
     });
 })
 
-module.exports={coureRouter: coursesrouter
-};
+coursesrouter.post("/addcourse", auth.auth,async function(req,res){
+    console.log("we are at add course endpoint");
+
+    const teacherId = req.teacherId;
+    const {title,price,image ,discription}=req.body;
+    try{
+         const coures= await couresdb.create({
+        title,price,image,discription,teacher: teacherId });
+       
+
+    res.status(200).json({
+        message: "coures are created"
+    })
+     throw new Error(e.message);
+    }
+    catch(e){
+        
+        res.status(500).json({
+            message: "Unable to create course",error: e.message
+        });
+    }
+  
+       
+    
+} )
+
+module.exports={coureRouter: coursesrouter};
 
 
-// hi i am sumit 
