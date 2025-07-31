@@ -8,9 +8,16 @@ require("dotenv").config();
 
 mongo.connect(process.env.MONGO_URL);
 coursesrouter.get("/allcourse", async function (req, res){
-    res.json({
-        message:"you are at all coureses"
+    try{
+    const cources= await couresdb.find({})
+    res.status(200).json({
+        message:"here is our all cources ",cources
     })
+}catch(e){
+    res.status(400).json({
+        message: " there might problem form loading the code "
+    })
+}
 })
 coursesrouter.get("/freecources",async function (req, res){
     res.json({
