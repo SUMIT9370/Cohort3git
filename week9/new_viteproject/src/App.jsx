@@ -11,17 +11,44 @@ function data(){
 
 function Counter(){
   const [t, setTimer]=useState(0)
-  console.log("we are at main function")
+  const [stoper, setStop]=useState(false);
+  console.log("her i in use main function");
  
+  
   useEffect(()=>{
-    console.log("we are at use effect")
+
+    if (stoper) return;
     
-    console.log("the counter are being mounted")
-  })
+    const clock=setInterval(()=>{
+      setTimer(time => time+1)
+    },1000)
+
+   
+    return(
+      ()=>{
+         clearInterval(clock);
+      }
+    )
+   
+
+  },[stoper])
+  function stop(){
+    setStop(true);
+    setTimer(0);
+
+  }
+
+  function start(){
+    setStop(false);
+    
+  }
+
+
   
   return <div>
     <h1>{t}</h1>
-    
+    <button  onClick={stop}>stop </button>
+    <button onClick={start}>start</button>
   </div>
 
 }
