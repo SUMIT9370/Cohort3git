@@ -1,60 +1,38 @@
-import { useState ,useEffect }   from "react";
+import { useState } from "react";
+import { PostComponent } from "./post.jsx";
 
-function data(){
-  return <div>
-    <Counter></Counter>
-     
-  </div>
-  
-}
+function App() {
+  const [posts, setPosts] = useState([]);
 
+  const postComponents = posts.map(post => <PostComponent
+    name={post.name}
+    subtitle={post.subtitle}
+    time={post.title}
+    image={post.image}
+    description={post.description}
+  />)
 
-function Counter(){
-  const [t, setTimer]=useState(0)
-  const [stoper, setStop]=useState(false);
-  console.log("her i in use main function");
- 
-  
-  useEffect(()=>{
-
-    if (stoper) return;
-    
-    const clock=setInterval(()=>{
-      setTimer(time => time+1)
-    },1000)
-
-   
-    return(
-      ()=>{
-         clearInterval(clock);
-      }
-    )
-   
-
-  },[stoper])
-  function stop(){
-    setStop(true);
-    setTimer(0);
-
+  function addPost() {
+    setPosts([...posts, {
+      name: "harkirat",
+      subtitle: "10000 followers",
+      time: "2m ago",
+      image: "https://appx-wsb-gcp-mcdn.akamai.net.in/subject/2023-01-17-0.17044360120951185.jpg",
+      description: "What to know how to win big? Check out how these folks won $6000 in bounties."
+    }])
   }
 
-  function start(){
-    setStop(false);
-    
-  }
-
-
-  
-  return <div>
-    <h1>{t}</h1>
-    <button  onClick={stop}>stop </button>
-    <button onClick={start}>start</button>
-  </div>
-
+  return (
+    <div style={{background: "#dfe6e9", height: "100vh", }}>
+      <button onClick={addPost}>Add post</button>
+      <div style={{display: "flex", justifyContent: "center" }}>
+        <div>
+          {postComponents}
+        </div>
+      </div>
+    </div>
+  )
 }
 
+export default App
 
-
-
-
-export default data
