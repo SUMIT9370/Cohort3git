@@ -1,36 +1,40 @@
-import { useState } from 'react'
+import React from 'react';
 
-const App =()=>{
-  return(
-    <div>
-        <CARD>
-          <h1>hi</h1>
-          This is some content useImperativeHandle
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false };
+    }
 
-        </CARD>
+    static getDerivedStateFromError(error) {
+        return { hasError: false };
+    }
 
-        <CARD>
-          <h1>
-            Second 
+    componentDidCatch(error, info) {
+        console.error("Error caught:", error, info);
+    }
 
-          </h1>
-          this is second card component
-        </CARD>
-     
-    </div>
-  )
+    render() {
+        if (this.state.hasError) {
+            return <h1>Something went wrong.</h1>;
+        }
+
+        
+
+        return this.props.children; 
+    }
 }
 
-const CARD =({children})=>{
-  return(
-    <div style={{border:"1px, solid #ccc",borderRadius:"5px",
-      padding:'20px', margin:'10px', boxShadow:'2px 2px 5px rgba(0,0,0,0.1)',
-    }}>
-    
-      {children}
-    </div>
-  )
-}
+const BuggyComponent = () => {
+    throw new Error("I crashed!");
+};
 
+const App = () => {
+    return (
+        <ErrorBoundary>
+            <BuggyComponent />
+        </ErrorBoundary>
+    );
+};
 
-export default App
+export default App;
