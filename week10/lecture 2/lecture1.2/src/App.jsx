@@ -1,15 +1,13 @@
-import {  useState} from "react";
+import {  createContext, useContext, useState} from "react";
 
-
+const  SetContext= createContext();
 function App() {
-  const [count, setCount]= useState(0)
+  
   
 
   return (
     <>
-    <Printer count ={count}/>
-    <Increase count ={count} setCount={setCount} />
-    <Decrese count ={count} setCount={setCount}/>
+   <Parent/>
     </>
     
   )
@@ -17,10 +15,41 @@ function App() {
 
 }
 
+function ContextSetr({children}){
+  const [count , setCount]=useState(0)
 
+  return (
+    <>
+    <SetContext.Provider value={{count, setCount}}>
+      {children}
 
+    </SetContext.Provider>
+    
+    </>
+  )
 
-function Printer({count}){
+}
+
+function Parent() {
+  
+  
+
+  return (
+    <>
+    <ContextSetr>
+
+    <Printer/>
+    <Increase />
+    <Decrese/>
+    </ContextSetr>
+    </>
+    
+  )
+    
+
+}
+function Printer(){
+  const {count}=useContext(SetContext);
   return(
     <>
     <h1>Count = {count}</h1>
@@ -28,7 +57,8 @@ function Printer({count}){
   )
 }
 
-function Increase({setCount, count}){
+function Increase(){
+  const {count, setCount}=useContext(SetContext);
   return(
     <>
     <button onClick={()=>{setCount(count+1)}}>Increse</button>
@@ -37,7 +67,8 @@ function Increase({setCount, count}){
   )
 
 }
-function Decrese( {setCount, count}){
+function Decrese( ){
+  const {count, setCount}=useContext(SetContext);
   return (
     <>
     <button onClick={()=>{setCount(count-1)}}>Decrese</button>
